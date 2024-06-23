@@ -4,6 +4,8 @@ const userController = require('../controllers/users');
 const videoController = require('../controllers/videos');
 const commentController = require('../controllers/comments');
 const tokensController = require('../controllers/tokens');
+const { upload } = require('../services/gridfs');
+
 
 router.route('/')
     .post(userController.createUser)
@@ -16,7 +18,7 @@ router.route('/:id')
 
 router.route('/:id/videos')
     .get(videoController.getUserVideos)
-    .post(tokensController.isLoggedIn, videoController.createVideo)
+    .post(tokensController.isLoggedIn, upload.single('video'), videoController.createVideo)
 
 router.route('/:id/videos/:pid')
     .get(videoController.getVideo)

@@ -13,10 +13,7 @@ const customEnv = require('custom-env');
     customEnv.env(process.env.NODE_ENV, './config');
     
     
-    mongoose.connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    }).then(() => {
+    mongoose.connect(process.env.MONGO_URL).then(() => {
         console.log('Connected to MongoDB');
     }).catch(err => {
         console.error('Failed to connect to MongoDB', err);

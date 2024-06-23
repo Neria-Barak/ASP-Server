@@ -27,6 +27,11 @@ const Video = new Schema({
         type: String,
         required: true
     },
+    // video: {
+    //     type: Schema.Types.ObjectId,
+    //     required: true,
+    //     ref: 'videos.files'
+    // },
     video: {
         type: String,
         required: true
