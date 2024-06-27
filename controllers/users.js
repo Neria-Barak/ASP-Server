@@ -1,11 +1,16 @@
 const userService = require('../services/users');
+const fs = require('fs').promises;
 
 const createUser = async (req, res) => {
+    const imgPath = req.file.path;
+    const imgBuffer = await fs.readFile(imgPath);
+    const img64 = imgBuffer.toString('base64');
+    await fs.unlink(imgPath);
     const user = await userService.createUser(
         req.body.username,
         req.body.displayName,
         req.body.password,
-        req.body.profilePicture
+        img64
     );
     res.json(user);
 }

@@ -1,4 +1,5 @@
 const Video = require('../models/videos');
+  
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -32,7 +33,7 @@ const getUserVideos = async (id) => {
 }
 
 const createVideo = async (title, views, likes, date, img,
-                           description, vid, user, comments) => {
+                           description, videoPath, user, comments) => {
     const video = new Video({
         title,
         views: (views != null) ? views : 0,
@@ -40,7 +41,7 @@ const createVideo = async (title, views, likes, date, img,
         date: (date != null) ? date : Date.now(),
         img,
         description,
-        video: vid,
+        video: videoPath,
         user,
         comments: (comments != null) ? comments : []
     })

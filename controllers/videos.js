@@ -1,5 +1,20 @@
 const videoService = require('../services/videos');
+const multer = require('multer');
+const fs = require('fs').promises;
+const path = require('path');
 
+// Custom storage configuration for multer
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'videos/'); // Save files in the 'uploads' directory
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({ storage: storage });
 
 const get20Videos = async (req, res) => {
     const videos = await videoService.get20Videos();
@@ -11,20 +26,48 @@ const getUserVideos = async(req, res) => {
     res.json(videos);
 }
 
-const createVideo = async(req, res) => {
-    const video = await videoService.createVideo(
-        req.body.title,
-        req.body.views || null,
-        req.body.likes || null,
-        req.body.date || null,
-        req.body.img,
-        req.body.description,
-        req.body.video,
-        req.params.id,
-        req.body.comments || null
-    );
-    res.json(video);
-}
+const createVideo = async (req, res) => {
+    upload.fields([{ name: 'video', maxCount: 1 }, { name: 'img', maxCount: 1 }])(req, res, async (err) => {
+        if (err) {
+            return res.status(400).send({ message: err.message });
+        } else {
+            if (!req.files || !req.files['video'] || !req.files['img']) {
+                return res.status(400).send({ message: 'Both video and image files are required!' });
+            } else {
+                const { title, views, likes, date, description, user, comments } = req.body;
+                const videoPath = req.files['video'][0].path;
+                const imgPath = req.files['img'][0].path;
+
+                try {
+                    // Read image file and convert to base64
+                    const imgBuffer = await fs.readFile(imgPath);
+                    const img64 = imgBuffer.toString('base64');
+                    await fs.unlink(imgPath);
+
+                    // Call the video service to create the video
+                    const video = await videoService.createVideo(
+                        title,
+                        views || null,
+                        likes || null,
+                        date || null,
+                        img64,
+                        description,
+                        videoPath,
+                        req.params.id,
+                        comments || null
+                    );
+
+                    // Save the video
+                    const savedVideo = await video.save();
+                    return res.status(200).send({ message: 'Video uploaded and saved!', video: savedVideo });
+                } catch (error) {
+                    return res.status(500).send({ message: 'Error processing image or saving video to database.', error });
+                }
+            }
+        }
+    });
+};
+
 
 const getVideo = async(req, res) => {
     const video = await videoService.getVideo(req.params.pid);

@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../models/users');
 
 const createUser = async (username, displayName, password, profilePicture) => {
@@ -34,9 +35,18 @@ const editUser = async (id, displayName, username, password, profilePicture) => 
 }
 
 const deleteUser = async (id) => {
-    let user = await User.findByIdAndDelete(id);
-    return user != []
-}
+    try {
+        let user = await User.findByIdAndDelete(id);
+        if (!user) {
+            return false;
+        }
+        // Related videos and comments are automatically deleted by the middleware
+        return true;
+    } catch (error) {
+        console.error('Error deleting user:', error);
+        return false;
+    }
+};
 
 module.exports = {
     createUser,
