@@ -1,7 +1,7 @@
 const tokenService = require('../services/tokens');
 
 const createToken = async (req, res) => {
-    return res.status(200).json(await tokensService.createToken(req.body.id))
+    return res.status(200).json(await tokenService.createToken(req.body.id))
 }
 
 const isLoggedIn = (req, res, next) => {
