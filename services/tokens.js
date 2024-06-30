@@ -1,3 +1,5 @@
+const User = require('../models/users');
+
 // Use a library to perform the cryptographic operations
 const jwt = require("jsonwebtoken");
 
@@ -19,7 +21,15 @@ const createToken = async (id) => {
     return jwt.sign(id, key)
 }
 
+const getUserByToken = async (token) => {
+    const id = jwt.verify(token, key);
+    let user = (await User.findById(id));
+    if (!user) return null
+    return user;
+}
+
 module.exports = {
     verifyToken,
-    createToken
+    createToken,
+    getUserByToken
 }
