@@ -2,6 +2,10 @@ const tokenService = require('../services/tokens');
 const userService = require('../services/users');
 
 const createToken = async (req, res) => {
+    const user = await userService.authenticateUser(req.body.username, req.body.password);
+    if (!user) 
+        return res.status(401).json({message: 'Invalid credentials'});
+
     return res.status(200).json(await tokenService.createToken(req.body.id))
 }
 
@@ -18,6 +22,26 @@ const isLoggedIn = (req, res, next) => {
         }
     } else {
         return res.status(403).send('Token required');
+    }
+}
+
+const getUserByToken = async (req, res) => {
+    const user = await tokenService.getUserByToken(req.body.token);
+    if (!user) {
+        return res.status(404).json({ errors: ['Invalid token!'] })
+    }
+    res.json(user);
+}
+
+const validateEditor = async (req, res, next) => {
+    const user = tokenService.getUserByToken(req.body.token);
+    if (!user)
+        return res.status(404).json({ errors: ['Invalid token!'] });
+
+    if (user._id == req.params.id) {
+        return next();
+    } else {
+        return res.status(403).json({errors: ['Validation error!']});
     }
 }
 
@@ -40,5 +64,6 @@ const login = async (req, res) => {
 module.exports = {
     isLoggedIn,
     createToken,
-    login
+    getUserByToken,
+    validateEditor
 }
