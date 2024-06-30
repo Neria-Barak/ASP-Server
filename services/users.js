@@ -48,6 +48,7 @@ const deleteUser = async (id) => {
     }
 };
 
+
 const authenticateUser = async (username, password) => {
     try {
         const user = await User.findOne({ username: username, password: password });
@@ -57,6 +58,8 @@ const authenticateUser = async (username, password) => {
         return null;
     }
 }
+
+
 
 module.exports = {
     createUser,
