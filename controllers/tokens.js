@@ -32,13 +32,16 @@ const getUserByToken = async (req, res) => {
     if (!user) {
         return res.status(404).json({ errors: ['Invalid token!'] })
     }
-    res.status(200).json(user);
+    res.status(200).json({user});
 }
 
 const validateEditor = async (req, res, next) => {
-    const user = await tokenService.getUserByToken(req.body.token);
+    console.log(req.user);
+    const user = await userService.getUserById(req.user);
     if (!user)
         return res.status(404).json({ errors: ['Invalid token!'] });
+
+    console.log(user.username);
 
     if (user._id == req.params.id) {
         return next();
@@ -56,7 +59,7 @@ const login = async (req, res) => {
     
         res.json({
             token,
-            user: userData
+            user
         });
     } catch (error) {
         res.status(500).json({message: 'Internal server error'});
@@ -67,5 +70,6 @@ module.exports = {
     isLoggedIn,
     createToken,
     getUserByToken,
-    validateEditor
+    validateEditor,
+    login
 }

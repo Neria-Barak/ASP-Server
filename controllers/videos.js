@@ -87,7 +87,7 @@ const editVideo = async(req, res) => {
         req.params.pid,
     );
     if (!video) return res.status(404).json({ errors: ['Video not found'] })
-    res.json(video);
+    res.json({video});
 }
 
 const deleteVideo = async(req, res) => {

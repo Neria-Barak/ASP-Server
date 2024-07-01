@@ -3,10 +3,10 @@
     "version": "1.0.0",
     "main": "server.js",
     "scripts": {
-        "start": "SET NODE_ENV=local && node server.js",
-        "reset": "SET NODE_ENV=local && node tests/reset.js",
-        "populate": "SET NODE_ENV=local && node tests/populate.js",
-        "all": "SET NODE_ENV=local && node tests/reset.js && node tests/populate.js && node server.js"
+        "start": "NODE_ENV=local node server.js",
+        "reset": "NODE_ENV=local node tests/reset.js",
+        "populate": "NODE_ENV=local node tests/populate.js",
+        "all": "NODE_ENV=local node tests/reset.js node tests/populate.js node server.js"
     },
     "keywords": [],
     "author": "",

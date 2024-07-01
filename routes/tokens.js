@@ -6,4 +6,7 @@ router.route('/')
     .post(tokensController.createToken)
     .get(tokensController.isLoggedIn, tokensController.getUserByToken);
 
+router.route('/login')
+    .post(tokensController.login);
+
 module.exports = router;

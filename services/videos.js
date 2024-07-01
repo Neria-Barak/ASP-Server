@@ -12,11 +12,7 @@ function shuffle(array) {
 const get20Videos = async () => {
     // Fetch 10 random videos
     const randomVideos = await Video.aggregate([{ $sample: { size: 10 } }]);
-    
-    const allVideos = await Video.find();
-    const videoIds = new Set(randomVideos.map(video => video._id.toString()));
-    allVideos = allVideos.filter(video => !videoIds.has(video._id.toString()));
-    
+
     // Fetch 10 most-watched videos
     const mostWatchedVideos = await Video.find().sort({ views: -1 }).limit(10);
 
@@ -25,7 +21,9 @@ const get20Videos = async () => {
 
     // Shuffle the combined results
     videos = shuffle(videos);
-    
+
+    //videos = [...new Set(videos)]
+
     return videos;
 }
 
