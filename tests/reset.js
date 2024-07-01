@@ -4,7 +4,7 @@ customEnv.env(process.env.NODE_ENV, './config');
 const fs = require('fs').promises;
 const path = require('path');
 
-const directory = 'videos/'; // Replace with your directory path
+const directory = 'public/videos/'; // Replace with your directory path
 
 async function deleteFilesExceptSpecific(directory) {
     try {
