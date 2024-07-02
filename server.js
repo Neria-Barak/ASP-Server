@@ -23,6 +23,9 @@ const customEnv = require('custom-env');
     
     
     server.use(express.static(path.join(__dirname, 'public'))); 
+
+    server.use('/public', express.static(path.join(__dirname, 'public')));
+
     server.use(bodyParser.json({ limit: '5mb' }));
     server.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
     server.use(express.json())
