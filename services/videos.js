@@ -46,8 +46,7 @@ const createVideo = async (title, views, likes, date, img,
         img,
         description,
         video: videoPath,
-        user,
-        comments: (comments != null) ? comments : []
+        user
     })
     return await video.save();                        
 }
