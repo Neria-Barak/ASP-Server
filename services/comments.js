@@ -1,4 +1,4 @@
-const Video = require('../models/comments');
+const Comment = require('../models/comments');
 
 const getVideoComments = async (pid) => {
     const comments = await Comment.find({ video: pid }).exec();

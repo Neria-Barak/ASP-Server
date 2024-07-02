@@ -15,7 +15,6 @@ const createUser = async (req, res) => {
         req.body.profilePicture
     );
     const token = await tokenService.createToken(user._id.toString());
-    console.log(token)
     res.json({user: user, token: token});
 }
 
@@ -29,7 +28,7 @@ const getUserById = async (req, res) => {
     if (!user) {
         return res.status(404).json({ errors: ['User not found'] })
     }
-    res.json(user);
+    res.json({user});
 }
 
 const editUser = async (req, res) => {

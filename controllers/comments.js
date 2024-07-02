@@ -8,10 +8,9 @@ const getVideoComments = async(req, res) => {
 const createComment = async(req, res) => {
     const comment = await commentService.createComment(
         req.body.content,
-        req.body.views || null,
         req.body.likes || null,
         req.body.date || null,
-        req.params.id,
+        req.body.id,
         req.params.pid,
     );
     res.json(comment);

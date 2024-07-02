@@ -12,8 +12,8 @@ router.route('/')
 
 router.route('/:id')
     .get(userController.getUserById)
-    .patch(tokensController.validateEditor, userController.editUser)
-    .delete(tokensController.validateEditor, userController.deleteUser)
+    .patch(tokensController.isLoggedIn, tokensController.validateEditor, userController.editUser)
+    .delete(tokensController.isLoggedIn, tokensController.validateEditor, userController.deleteUser)
 
 router.route('/:id/videos')
     .get(videoController.getUserVideos)

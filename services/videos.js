@@ -73,11 +73,21 @@ const deleteVideo = async (pid) => {
     return video != []
 }
 
+const view = async (pid) => {
+    let video = await Video.findById(pid);
+    if (!video) return false
+    video.views++;
+    console.log(video.views)
+    await video.save();
+    return true
+}
+
 module.exports = {
     get20Videos,
     getUserVideos,
     createVideo,
     getVideo,
     editVideo,
-    deleteVideo
+    deleteVideo,
+    view
 }

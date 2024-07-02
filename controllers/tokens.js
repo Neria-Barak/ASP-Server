@@ -36,12 +36,10 @@ const getUserByToken = async (req, res) => {
 }
 
 const validateEditor = async (req, res, next) => {
-    console.log(req.user);
     const user = await userService.getUserById(req.user);
     if (!user)
         return res.status(404).json({ errors: ['Invalid token!'] });
 
-    console.log(user.username);
 
     if (user._id == req.params.id) {
         return next();
@@ -55,8 +53,7 @@ const login = async (req, res) => {
         const user = await userService.authenticateUser(req.body.username, req.body.password);
         if (!user) 
             return res.status(401).json({message: 'Invalid credentials'});
-        const token = await tokenService.createToken(user._id);
-    
+        const token = await tokenService.createToken(user._id.toString());
         res.json({
             token,
             user

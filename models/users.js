@@ -30,7 +30,6 @@ const User = new Schema({
 
 User.pre('findOneAndDelete', async function (next) {
     const userId = this.getQuery()._id;
-    console.log(userId)
     
     // Delete user's videos
     await Video.deleteMany({ user: userId });
