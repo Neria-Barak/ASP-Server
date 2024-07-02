@@ -96,17 +96,11 @@ const deleteVideo = async(req, res) => {
     res.json(video)
 }
 
-const view = async (req, res) => {
-    await videoService.view(req.params.pid);
-    res.status(200);
-}
-
 module.exports = {
     get20Videos,
     getUserVideos,
     createVideo,
     getVideo,
     editVideo,
-    deleteVideo,
-    view
+    deleteVideo
 }

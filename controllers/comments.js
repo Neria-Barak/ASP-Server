@@ -17,7 +17,7 @@ const createComment = async(req, res) => {
 }
 
 const getComment = async(req, res) => {
-    const comment = await commentService.getComment(req.params.pid);
+    const comment = await commentService.getComment(req.params.cid);
     res.json(comment);
 }
 
