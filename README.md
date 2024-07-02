@@ -3,7 +3,7 @@
 How to run the code:
 1. clone this repository
 2. install dependencies - 'npm install'
-3. run to your mongodb
+3. run your mongodb
 4. modify the config variables if needed
 5. run 'npm run reset' to drop the database
 6. run 'npm run populate' to add default info
