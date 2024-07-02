@@ -1,13 +1,13 @@
 # ASP-Server
 
 How to run the code:
-1. clone this repository
-2. install dependencies - 'npm install'
-3. run your mongodb
-4. modify the config variables if needed
-5. run 'npm run reset' to drop the database
-6. run 'npm run populate' to add default info
-7. run the application - 'npm start'
+1. Clone this repository
+2. Install dependencies - 'npm install'
+3. Connect to a MongoDB deployment
+4. Modify the config variables if needed
+5. Run 'npm run reset' to drop the database
+6. Run 'npm run populate' to add default info
+7. Run the application - 'npm start'
 
 If you are using mac, you may need to change the scripts in 'package.json' to:
 "start": "NODE_ENV=local node server.js",
