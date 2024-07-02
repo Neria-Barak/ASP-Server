@@ -1,3 +1,5 @@
+const path = require('path');
+
 const express = require('express');
 const server = express();
 
@@ -20,7 +22,10 @@ const customEnv = require('custom-env');
     });;
     
     
-    server.use(express.static('public'))
+    server.use(express.static(path.join(__dirname, 'public'))); 
+
+    server.use('/public', express.static(path.join(__dirname, 'public')));
+
     server.use(bodyParser.json({ limit: '5mb' }));
     server.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
     server.use(express.json())
@@ -32,7 +37,10 @@ const customEnv = require('custom-env');
     server.use('/api/videos', videos)
     server.use('/api/tokens', tokens)
 
-
+    server.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    });
+    
     server.listen(process.env.SERVER_PORT, () => {
         console.log('Server running on http://localhost:8080');
     });

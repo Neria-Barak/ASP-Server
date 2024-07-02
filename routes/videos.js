@@ -11,4 +11,5 @@ router.route('/:pid')
     .get(commentController.getVideoComments)
     .post(tokensController.isLoggedIn, commentController.createComment)
 
+
 module.exports = router;

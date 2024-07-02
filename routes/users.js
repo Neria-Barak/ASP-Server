@@ -12,8 +12,8 @@ router.route('/')
 
 router.route('/:id')
     .get(userController.getUserById)
-    .patch(tokensController.validateEditor, userController.editUser)
-    .delete(tokensController.validateEditor, userController.deleteUser)
+    .patch(tokensController.isLoggedIn, userController.editUser)
+    .delete(tokensController.isLoggedIn, userController.deleteUser)
 
 router.route('/:id/videos')
     .get(videoController.getUserVideos)
@@ -21,11 +21,11 @@ router.route('/:id/videos')
 
 router.route('/:id/videos/:pid')
     .get(videoController.getVideo)
-    .patch(tokensController.isLoggedIn, tokensController.validateEditor, videoController.editVideo)
-    .delete(tokensController.isLoggedIn, tokensController.validateEditor, videoController.deleteVideo)
+    .patch(tokensController.isLoggedIn, tokensController.validateEditorVideo, videoController.editVideo)
+    .delete(tokensController.isLoggedIn, tokensController.validateEditorVideo, videoController.deleteVideo)
 
 router.route('/:id/comments/:cid')
-    .patch(tokensController.isLoggedIn, tokensController.validateEditor, commentController.editComment)
-    .delete(tokensController.isLoggedIn, tokensController.validateEditor, commentController.deleteComment)
+    .patch(tokensController.isLoggedIn, tokensController.validateEditorComment, commentController.editComment)
+    .delete(tokensController.isLoggedIn, tokensController.validateEditorComment, commentController.deleteComment)
 
 module.exports = router;

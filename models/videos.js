@@ -39,11 +39,7 @@ const Video = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: "User"
-    },
-    comments: [{
-        type: String,
-        ref: "Comment"
-    }],
+    }
 }, {versionKey: false});
 
 module.exports = mongoose.model('Video', Video, "videos");

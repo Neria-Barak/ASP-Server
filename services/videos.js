@@ -10,20 +10,24 @@ function shuffle(array) {
 }
 
 const get20Videos = async () => {
-    // Fetch 10 random videos
+    // Get 10 random videos
     const randomVideos = await Video.aggregate([{ $sample: { size: 10 } }]);
 
-    // Fetch 10 most-watched videos
-    const mostWatchedVideos = await Video.find().sort({ views: -1 }).limit(10);
+    // Get the IDs of the random videos
+    const randomVideoIds = randomVideos.map(video => video._id.toString());
 
-    // Combine the results
+    // Fetch all videos excluding the random videos
+    let allVideos = await Video.find({ _id: { $nin: randomVideoIds } }).exec();
+
+    // Sort the remaining videos by views and get the top 10
+    const mostWatchedVideos = allVideos.sort((a, b) => b.views - a.views).slice(0, 10);
+
+    // Combine the random and most watched videos
     let videos = [...randomVideos, ...mostWatchedVideos];
 
-    // Shuffle the combined results
+    // Shuffle the combined videos array
     videos = shuffle(videos);
 
-    //videos = [...new Set(videos)]
-    
     return videos;
 }
 
@@ -42,8 +46,7 @@ const createVideo = async (title, views, likes, date, img,
         img,
         description,
         video: videoPath,
-        user,
-        comments: (comments != null) ? comments : []
+        user
     })
     return await video.save();                        
 }
@@ -61,13 +64,14 @@ const editVideo = async (title, img, description, vid, pid) => {
     video.description = description
     video.vid = vid
     await video.save();
-    return true
+    return video;
 }
 
 const deleteVideo = async (pid) => {
     let video = await Video.findByIdAndDelete(pid);
     return video != []
 }
+
 
 module.exports = {
     get20Videos,

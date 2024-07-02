@@ -6,7 +6,7 @@ const path = require('path');
 // Custom storage configuration for multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'videos/'); // Save files in the 'uploads' directory
+        cb(null, 'public/videos/');
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -36,12 +36,15 @@ const createVideo = async (req, res) => {
             } else {
                 const { title, views, likes, date, description, user, comments } = req.body;
                 const videoPath = req.files['video'][0].path;
+                const fullVideoPath = `http://localhost:${process.env.SERVER_PORT}/${videoPath}`
                 const imgPath = req.files['img'][0].path;
 
                 try {
                     // Read image file and convert to base64
                     const imgBuffer = await fs.readFile(imgPath);
                     const img64 = imgBuffer.toString('base64');
+                    const imgMimeType = path.extname(imgPath).substring(1); // Get the file extension without the dot
+                    const base64DataUrl = `data:image/${imgMimeType};base64,${img64}`;
                     await fs.unlink(imgPath);
 
                     // Call the video service to create the video
@@ -50,9 +53,9 @@ const createVideo = async (req, res) => {
                         views || null,
                         likes || null,
                         date || null,
-                        img64,
+                        base64DataUrl,
                         description,
-                        videoPath,
+                        fullVideoPath,
                         req.params.id,
                         comments || null
                     );
@@ -71,6 +74,7 @@ const createVideo = async (req, res) => {
 
 const getVideo = async(req, res) => {
     const video = await videoService.getVideo(req.params.pid);
+    // res.json({videoData: video, videoFile: );
     res.json(video);
 }
 
@@ -83,7 +87,7 @@ const editVideo = async(req, res) => {
         req.params.pid,
     );
     if (!video) return res.status(404).json({ errors: ['Video not found'] })
-    res.json(video);
+    res.json({video});
 }
 
 const deleteVideo = async(req, res) => {

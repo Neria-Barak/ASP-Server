@@ -4,6 +4,9 @@ const tokensController = require('../controllers/tokens');
 
 router.route('/')
     .post(tokensController.createToken)
-    .get(tokensController.getUserByToken);
+    .get(tokensController.isLoggedIn, tokensController.getUserByToken);
+
+router.route('/login')
+    .post(tokensController.login);
 
 module.exports = router;
