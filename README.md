@@ -1,5 +1,7 @@
 # ASP-Server
 
+This branch corresponds to ex2. To see ex3 go to 'main_part3' branch
+
 How to run the code:
 1. Clone this repository
 2. Install dependencies - 'npm install'
