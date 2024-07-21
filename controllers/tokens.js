@@ -8,7 +8,7 @@ const createToken = async (req, res) => {
     if (!user) 
         return res.status(401).json({message: 'Invalid credentials'});
 
-    return res.status(200).json(await tokenService.createToken(user._id))
+    return res.status(200).json(await tokenService.createToken(user._id.toString()))
 }
 
 const isLoggedIn = (req, res, next) => {
