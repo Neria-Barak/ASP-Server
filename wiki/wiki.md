@@ -1,4 +1,4 @@
-The TCP server we built in C++ can only run on Linux, whereas the Node.js server is compatible with Windows, macOS, and Linux.
+The TCP server we built in C++ can only run on Linux, whereas the Node.js server is compatible with Windows, macOS, and Linux as long as you can connect to MongoDB.
 
 **Setup Instructions:**
 
