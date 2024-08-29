@@ -1,18 +1,12 @@
 # ASP-Server
 
-How to run the code:
-1. Clone this repository
-2. Install dependencies - 'npm install'
-3. Connect to a MongoDB deployment
-4. Modify the config variables if needed
-5. Run 'npm run reset' to drop the database
-6. Run 'npm run populate' to add default info
-7. Run the application - 'npm start'
-8. Go to 'http://localhost:8080/' in you browser (change the port based on your configuration variables)
+To understand how to run this repository, please refer to the detailed explanation provided in the wiki folder.
 
 If you are using mac, you may need to change the scripts in 'package.json' to:
 "start": "NODE_ENV=local node server.js",
+
 "reset": "NODE_ENV=local node tests/reset.js",
+
 "populate": "NODE_ENV=local node tests/populate.js"
 
 You can see the source code of the client side in our web repository: https://github.com/Neria-Barak/ASP-Web/tree/server-feature
