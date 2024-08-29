@@ -1,4 +1,5 @@
 const Video = require('../models/videos');
+const cppClient = require('../client');
   
 
 function shuffle(array) {
@@ -72,6 +73,22 @@ const deleteVideo = async (pid) => {
     return video != []
 }
 
+let haveToInit = true;
+const handleVideoView = async (id, pid) => {
+    if (haveToInit) {
+        await cppClient.init();
+        haveToInit = false;
+    }
+    await cppClient.sendViewToServer(id, pid);
+    let video = await Video.findById(pid);
+    video.views++;
+    await video.save();
+}
+
+const getRecommendation = async (pid) => {
+    const videos = await cppClient.getRecommendation(pid); 
+    return videos;
+}
 
 module.exports = {
     get20Videos,
@@ -79,5 +96,7 @@ module.exports = {
     createVideo,
     getVideo,
     editVideo,
-    deleteVideo
-}
+    deleteVideo,
+    handleVideoView,
+    getRecommendation
+};

@@ -11,5 +11,10 @@ router.route('/:pid')
     .get(commentController.getVideoComments)
     .post(tokensController.isLoggedIn, commentController.createComment)
 
+router.route('/:pid/:id')
+    .post(videoController.handleVideoView);
+
+router.route('/:pid/recom')
+    .get(videoController.getRecommendation);
 
 module.exports = router;

@@ -21,6 +21,14 @@ const get20Videos = async (req, res) => {
     res.json(videos);
 }
 
+const getRecommendation = async(req, res) => {
+    const pid = req.params.pid;
+    const videos = await videoService.getRecommendation(pid);
+
+
+    res.json(videos);
+}
+
 const getUserVideos = async(req, res) => {
     const videos = await videoService.getUserVideos(req.params.id);
     res.json(videos);
@@ -96,11 +104,22 @@ const deleteVideo = async(req, res) => {
     res.json(video)
 }
 
+const handleVideoView = async(req, res) => {
+    const id = req.params.id;
+    const pid = req.params.pid;
+
+    videoService.handleVideoView(id, pid);
+    return res.status(200);
+}
+
+
 module.exports = {
     get20Videos,
     getUserVideos,
     createVideo,
     getVideo,
     editVideo,
-    deleteVideo
+    deleteVideo,
+    handleVideoView,
+    getRecommendation
 }

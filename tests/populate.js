@@ -39,7 +39,7 @@ videos = [`http://localhost:${process.env.SERVER_PORT}/public/videos/video1.mp4`
         for (let j = 0; j < 5; j++) {
             const video = videos[Math.floor(Math.random() * 3)]
             const picture = thumbnails[Math.floor(Math.random() * (thumbnails.length))];
-            const views = Math.floor(Math.random(1000));
+            const views = Math.floor(Math.random() * 1000);
             
             await videoService.createVideo(`default video number ${i * 5 + j}`, views, 0, Date.now(), picture,
                                          `default video description number ${i * 5 + j}`, video, user._id.toString(), []);
